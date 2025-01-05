@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const username = useSelector((state) => state.user.username);
+  const navigate = useNavigate();
+  useEffect(()=>{
+    if(username == "")navigate("/login");
+  },[username])
   return (
     <div className="ml-5 sm:ml-20">
       <div className="sm:flex overflow-y-auto overflow-x-hidden">
@@ -10,8 +15,9 @@ const Home = () => {
         <p className="mt-20 text-2xl">
             Welcome,{" "}
             <span className="mt-4 opacity-50">
-             {username}
+             {username+" "}
             </span>
+            <span className="motion-preset-pulse">👋🏼</span>
           </p>
           <p className="mt-5 text-4xl">
             Making Your Business{" "}

@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { setPassword, setRole, setUserName } from "./userSlice";
 import { login_user, register_user } from "../services/UserService";
 import { useDispatch } from "react-redux";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Login = () => {
   const [isNewUser, setIsNewUser] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const toggle = () => {
     setIsNewUser(!isNewUser);
   };
@@ -49,6 +51,7 @@ const Login = () => {
       );
 
     if (error === "") {
+      setIsLoading(true);
       const response = isNewUser
         ? register_user({
             username: username.current.value,
@@ -61,7 +64,8 @@ const Login = () => {
           });
       response
         .then(() => {
-          dispatch(setUserName(username.current.value))
+          dispatch(setUserName(username.current.value));
+          setIsLoading(false);
           navigate("/");
         })
         .catch((err) => {
@@ -159,7 +163,13 @@ const Login = () => {
                 onClick={handleSubmit}
                 className="flex w-full justify-center rounded-md bg-slate-950 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                {isNewUser ? "Sign up" : "Sign in"}
+                {isLoading ? (
+                  <AiOutlineLoading3Quarters className="animate-spin mr-2" />
+                ) : isNewUser ? (
+                  "Sign up"
+                ) : (
+                  "Sign in"
+                )}
               </button>
             </div>
           </form>
