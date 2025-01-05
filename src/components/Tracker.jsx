@@ -17,8 +17,9 @@ const Tracker = () => {
 
   useEffect(() => {
     fetchData();
+    if (username == "") navigate("/login");
     window.location.reload;
-  }, []);
+  }, [username]);
 
   return (
     <div className="sm:ml-8 pb-5">
